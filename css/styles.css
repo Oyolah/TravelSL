@@ -1,1 +1,23 @@
+/* TravelSL - Custom Styles for Bootstrap */
+:root {
+  --sl-green: #1EB53A;
+  --sl-blue: #0072CE;
+  --brand-primary: var(--sl-green);
+  --brand-secondary: var(--sl-blue);
+  --brand-accent: #FF6B35;
+  --section-padding: 4rem 0;
+  --transition-smooth: all 0.3s ease-in-out;
+}
 
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+}
+
+html {
+  scroll-behavior: smooth;
+}
