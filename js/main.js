@@ -4,6 +4,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Load Components
   loadNavbar();
+  loadHero();
   loadFooter();
   
   // Set active nav link based on current page
@@ -25,6 +26,64 @@ function loadNavbar() {
       })
       .catch(error => console.error('Error loading navbar:', error));
   }
+}
+
+// Load hero component
+function loadHero() {
+  const heroPlaceholder = document.querySelector('#hero-placeholder');
+  if (heroPlaceholder) {
+    fetch('./components/hero.html')
+      .then(response => response.text())
+      .then(data => {
+        heroPlaceholder.innerHTML = data;
+        setHeroContent();
+      })
+      .catch(error => console.error('Error loading hero:', error));
+  }
+}
+
+// Set hero content based on page
+function setHeroContent() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const heroTitle = document.querySelector('#hero-title');
+  const heroSubtitle = document.querySelector('#hero-subtitle');
+  
+  if (!heroTitle || !heroSubtitle) return;
+  
+  const heroContent = {
+    'index.html': {
+      title: 'Discover Freetown',
+      subtitle: 'Experience the beauty, culture, and warm hospitality of Sierra Leone\'s vibrant capital'
+    },
+    'destinations.html': {
+      title: 'Destinations',
+      subtitle: 'Explore the beautiful attractions and hidden gems of Freetown and Sierra Leone'
+    },
+    'tasks.html': {
+      title: 'My Wishlist',
+      subtitle: 'Save your favorite destinations and plan your perfect trip'
+    },
+    'analytics.html': {
+      title: 'My Itinerary',
+      subtitle: 'Build and manage your personalized travel itinerary'
+    },
+    'about.html': {
+      title: 'About Us',
+      subtitle: 'Learn more about Visit Freetown and our mission'
+    },
+    'contact.html': {
+      title: 'Contact Us',
+      subtitle: 'Get in touch with us for inquiries and bookings'
+    }
+  };
+  
+  const content = heroContent[currentPage] || {
+    title: 'Visit Freetown',
+    subtitle: 'Discover Sierra Leone\'s Capital City'
+  };
+  
+  heroTitle.textContent = content.title;
+  heroSubtitle.textContent = content.subtitle;
 }
 
 // Load footer component
