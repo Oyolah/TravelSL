@@ -25,6 +25,10 @@ body {
   color: #333;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
@@ -154,17 +158,31 @@ html {
   transform: scale(1.2);
 }
 
+.navbar-nav li,
+.nav-item {
+  list-style-type: none !important;
+  list-style: none !important;
+}
+
+.navbar-nav li::marker,
+.nav-item::marker {
+  content: none !important;
+  display: none !important;
+}
+
 /* Book Now Button */
 .btn-book-now {
   background: linear-gradient(135deg, var(--sl-green) 0%, #16a34a 100%);
   color: white !important;
   border: none;
-  border-radius: 50px;
+  border-radius: 25px;
   padding: 0.6rem 1.5rem;
   font-weight: 600;
   text-shadow: none;
   box-shadow: 0 4px 15px rgba(30, 181, 58, 0.4);
   transition: all 0.3s ease;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .btn-book-now:hover {
@@ -272,7 +290,7 @@ html {
 }
 
 /* Mobile menu styling */
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
   .navbar-collapse {
     background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(20px);
@@ -282,6 +300,26 @@ html {
     padding: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+  
+  .navbar-collapse:not(.show) {
+    display: none !important;
+  }
+  
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav-item.ms-lg-3 {
+    margin-left: 0 !important;
+  }
+  
+  .btn-book-now {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
   }
   
   .navbar.scrolled .navbar-collapse {
@@ -717,7 +755,7 @@ html {
 /* ==========================================
    RESPONSIVE
    ========================================== */
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
   .navbar-nav {
     padding: 1rem 0;
   }

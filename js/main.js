@@ -23,6 +23,11 @@ function loadNavbar() {
       .then(data => {
         navbarPlaceholder.innerHTML = data;
         setActiveNavLink();
+        // Initialize Bootstrap Collapse for dynamically loaded navbar
+        const collapseEl = document.querySelector('#navbarNav');
+        if (collapseEl && typeof bootstrap !== 'undefined') {
+          new bootstrap.Collapse(collapseEl, { toggle: false });
+        }
       })
       .catch(error => console.error('Error loading navbar:', error));
   }
