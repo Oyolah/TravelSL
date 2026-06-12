@@ -139,7 +139,18 @@ function renderDestinations(filter = 'all') {
           <div class="mb-3">
             ${dest.features.map(f => `<span class="badge bg-light text-dark me-1 mb-1">${f}</span>`).join('')}
           </div>
-          <button class="btn btn-outline-success btn-sm" onclick="addToWishlist(${dest.id})">
+          <div class="mb-3">
+            <label class="form-label small text-muted">Priority:</label>
+            <div class="btn-group w-100" role="group" id="priority-${dest.id}">
+              <input type="radio" class="btn-check" name="priority-${dest.id}" id="p-low-${dest.id}" value="low">
+              <label class="btn btn-outline-info btn-sm" for="p-low-${dest.id}">Low</label>
+              <input type="radio" class="btn-check" name="priority-${dest.id}" id="p-medium-${dest.id}" value="medium" checked>
+              <label class="btn btn-outline-warning btn-sm" for="p-medium-${dest.id}">Medium</label>
+              <input type="radio" class="btn-check" name="priority-${dest.id}" id="p-high-${dest.id}" value="high">
+              <label class="btn btn-outline-danger btn-sm" for="p-high-${dest.id}">High</label>
+            </div>
+          </div>
+          <button class="btn btn-outline-success btn-sm" onclick="addToWishlist(${dest.id}, document.querySelector('input[name=\"priority-${dest.id}\"]:checked').value)">
             <i class="fas fa-heart me-2"></i>Add to Wishlist
           </button>
         </div>
@@ -179,6 +190,18 @@ function removeFromWishlist(destinationId) {
   wishlist = wishlist.filter(item => item.id !== destinationId);
   localStorage.setItem('wishlist', JSON.stringify(wishlist));
   alert('Destination removed from wishlist!');
+}
+
+// Function to edit priority
+function editPriority(destinationId, newPriority) {
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  const itemIndex = wishlist.findIndex(item => item.id === destinationId);
+  
+  if (itemIndex !== -1) {
+    wishlist[itemIndex].priority = newPriority;
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    alert('Priority updated successfully!');
+  }
 }
 
 // Initialize on DOM load

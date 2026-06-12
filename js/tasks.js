@@ -32,9 +32,25 @@ function renderWishlist() {
             <i class="fas fa-star text-warning"></i>
             <span class="fw-bold">${item.rating}</span>
           </div>
+          <div class="mb-2">
+            <span class="badge ${item.priority === 'high' ? 'bg-danger' : item.priority === 'medium' ? 'bg-warning' : 'bg-info'} rounded-pill">
+              Priority: ${item.priority.charAt(0).toUpperCase() + item.priority.slice(1)}
+            </span>
+          </div>
           <p class="card-text text-muted flex-grow-1">${item.description}</p>
           <div class="mb-3">
             ${item.features.map(f => `<span class="badge bg-light text-dark me-1 mb-1">${f}</span>`).join('')}
+          </div>
+          <div class="mb-3">
+            <label class="form-label small text-muted">Edit Priority:</label>
+            <div class="btn-group w-100" role="group">
+              <input type="radio" class="btn-check" name="edit-priority-${item.id}" id="ep-low-${item.id}" value="low" ${item.priority === 'low' ? 'checked' : ''} onchange="editPriority(${item.id}, this.value); renderWishlist();">
+              <label class="btn btn-outline-info btn-sm" for="ep-low-${item.id}">Low</label>
+              <input type="radio" class="btn-check" name="edit-priority-${item.id}" id="ep-medium-${item.id}" value="medium" ${item.priority === 'medium' ? 'checked' : ''} onchange="editPriority(${item.id}, this.value); renderWishlist();">
+              <label class="btn btn-outline-warning btn-sm" for="ep-medium-${item.id}">Medium</label>
+              <input type="radio" class="btn-check" name="edit-priority-${item.id}" id="ep-high-${item.id}" value="high" ${item.priority === 'high' ? 'checked' : ''} onchange="editPriority(${item.id}, this.value); renderWishlist();">
+              <label class="btn btn-outline-danger btn-sm" for="ep-high-${item.id}">High</label>
+            </div>
           </div>
           <button class="btn btn-danger btn-sm" onclick="removeFromWishlist(${item.id}); renderWishlist();">
             <i class="fas fa-trash me-2"></i>Remove from Wishlist
