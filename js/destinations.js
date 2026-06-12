@@ -148,25 +148,37 @@ function renderDestinations(filter = 'all') {
   `).join('');
 }
 
-// Function to add to wishlist
-function addToWishlist(destinationId) {
+// Function to add to wishlist with priority
+function addToWishlist(destinationId, priority = 'medium') {
   const destination = destinations.find(d => d.id === destinationId);
   if (!destination) return;
-  
+
   // Get existing wishlist from localStorage
   let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-  
+
   // Check if already in wishlist
   if (wishlist.some(item => item.id === destinationId)) {
     alert('This destination is already in your wishlist!');
     return;
   }
-  
-  // Add to wishlist
-  wishlist.push(destination);
+
+  // Add to wishlist with priority
+  wishlist.push({
+    ...destination,
+    priority: priority,
+    addedAt: new Date().toISOString()
+  });
   localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  
-  alert(`${destination.name} added to wishlist!`);
+
+  alert(`${destination.name} added to wishlist with ${priority} priority!`);
+}
+
+// Function to remove from wishlist
+function removeFromWishlist(destinationId) {
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  wishlist = wishlist.filter(item => item.id !== destinationId);
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  alert('Destination removed from wishlist!');
 }
 
 // Initialize on DOM load
