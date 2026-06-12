@@ -50,18 +50,234 @@
   <!-- Navbar Placeholder -->
   <div id="navbar-placeholder"></div>
   
-  <!-- Main Content -->
-  <main>
-    <div class="container my-5">
-      <h1 class="text-center mb-4 fade-in-up">Welcome to Visit Freetown</h1>
-      <p class="text-center lead">Discover the beauty of Sierra Leone's capital city</p>
-      <div class="text-center mt-4">
-        <p>✓ Navbar with animations and hover effects</p>
-        <p>✓ Footer with Sierra Leone branding</p>
-        <p>✓ Smooth scroll effects</p>
-        <p>✓ Responsive design</p>
+  <!-- Hero Section with Video Background -->
+  <section class="hero-video">
+    <video autoplay muted loop playsinline class="hero-video-bg">
+      <source src="./images/backgrounds/hero_video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h1 class="hero-title fade-in-up">Discover Freetown</h1>
+            <p class="hero-subtitle fade-in-up">Experience the beauty, culture, and warm hospitality of Sierra Leone's vibrant capital</p>
+            <div class="hero-buttons fade-in-up">
+              <a href="destinations.html" class="btn btn-hero-primary">
+                <i class="fas fa-compass me-2"></i>Explore Destinations
+              </a>
+              <a href="contact.html" class="btn btn-hero-outline">
+                <i class="fas fa-envelope me-2"></i>Plan Your Trip
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="scroll-indicator">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Why Visit Freetown Section -->
+    <section class="py-5 bg-white">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+          <h2 class="display-5 fw-bold text-success mb-3">Why Visit Freetown?</h2>
+          <p class="lead text-muted">Discover what makes Sierra Leone's capital a must-visit destination</p>
+          <hr class="w-25 mx-auto border-warning border-3 opacity-75">
+        </div>
+        
+        <!-- Feature Cards using Bootstrap Cards -->
+        <div class="row g-4">
+          <!-- Card 1: Pristine Beaches -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-lift">
+              <div class="card-body text-center p-4">
+                <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                  <i class="fas fa-umbrella-beach fa-2x text-white"></i>
+                </div>
+                <h3 class="card-title h5 fw-bold text-primary mb-3">Pristine Beaches</h3>
+                <p class="card-text text-muted">Relax on stunning white-sand beaches with crystal-clear waters. From River No. 2 to Bureh Beach, paradise awaits.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 2: Rich History -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-lift">
+              <div class="card-body text-center p-4">
+                <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                  <i class="fas fa-landmark fa-2x text-white"></i>
+                </div>
+                <h3 class="card-title h5 fw-bold text-primary mb-3">Rich History</h3>
+                <p class="card-text text-muted">Explore centuries of history at the Cotton Tree, Bunce Island, and the National Museum showcasing Sierra Leone's heritage.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 3: Delicious Cuisine -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-lift">
+              <div class="card-body text-center p-4">
+                <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                  <i class="fas fa-utensils fa-2x text-white"></i>
+                </div>
+                <h3 class="card-title h5 fw-bold text-primary mb-3">Delicious Cuisine</h3>
+                <p class="card-text text-muted">Savor authentic West African flavors with dishes like jollof rice, cassava leaves, and fresh seafood from the Atlantic.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 4: Natural Wonders -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-lift">
+              <div class="card-body text-center p-4">
+                <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                  <i class="fas fa-mountain fa-2x text-white"></i>
+                </div>
+                <h3 class="card-title h5 fw-bold text-primary mb-3">Natural Wonders</h3>
+                <p class="card-text text-muted">Hike through lush rainforests, climb Leicester Peak, and discover breathtaking waterfalls in the Peninsula Mountains.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 5: Warm Hospitality -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-lift">
+              <div class="card-body text-center p-4">
+                <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                  <i class="fas fa-users fa-2x text-white"></i>
+                </div>
+                <h3 class="card-title h5 fw-bold text-primary mb-3">Warm Hospitality</h3>
+                <p class="card-text text-muted">Experience the legendary friendliness of Sierra Leoneans. The people make Freetown truly special.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 6: Vibrant Culture -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-lift">
+              <div class="card-body text-center p-4">
+                <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                  <i class="fas fa-music fa-2x text-white"></i>
+                </div>
+                <h3 class="card-title h5 fw-bold text-primary mb-3">Vibrant Culture</h3>
+                <p class="card-text text-muted">Immerse yourself in live music, colorful festivals, and traditional dance celebrating Sierra Leone's diverse culture.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Destinations Section -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+          <h2 class="display-5 fw-bold text-success mb-3">Featured Destinations</h2>
+          <p class="lead text-muted">Explore the most popular attractions in Freetown</p>
+          <hr class="w-25 mx-auto border-warning border-3 opacity-75">
+        </div>
+        
+        <!-- Destination Cards using Bootstrap -->
+        <div class="row g-4">
+          <!-- Card 1: River No. 2 Beach -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow hover-lift overflow-hidden">
+              <div class="position-relative">
+                <img src="./images/Sierra-leone-img/River-No2-Village-Beach-Sierra-Leone.jpg" alt="River No. 2 Beach" class="card-img-top img-zoom" style="height: 250px; object-fit: cover;">
+                <span class="position-absolute top-0 end-0 m-3 badge bg-success rounded-pill px-3 py-2">Popular</span>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="card-title h5 fw-bold text-primary">River No. 2 Beach</h3>
+                <p class="text-muted small mb-2">
+                  <i class="fas fa-map-marker-alt text-success me-2"></i>Western Area Peninsula
+                </p>
+                <p class="card-text text-muted flex-grow-1">A pristine beach paradise with golden sands, clear waters, and lush tropical surroundings perfect for relaxation.</p>
+                <a href="destinations.html" class="btn btn-outline-success btn-sm mt-auto">
+                  Learn More <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 2: Cotton Tree -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow hover-lift overflow-hidden">
+              <div class="position-relative">
+                <img src="./images/Sierra-leone-img/cottontree.jpg" alt="Cotton Tree" class="card-img-top img-zoom" style="height: 250px; object-fit: cover;">
+                <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark rounded-pill px-3 py-2">Historic</span>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="card-title h5 fw-bold text-primary">The Cotton Tree</h3>
+                <p class="text-muted small mb-2">
+                  <i class="fas fa-map-marker-alt text-success me-2"></i>Central Freetown
+                </p>
+                <p class="card-text text-muted flex-grow-1">An iconic 500-year-old landmark symbolizing freedom and the heart of Freetown's history and culture.</p>
+                <a href="destinations.html" class="btn btn-outline-success btn-sm mt-auto">
+                  Learn More <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 3: Bureh Beach -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow hover-lift overflow-hidden">
+              <div class="position-relative">
+                <img src="./images/Sierra-leone-img/Bureh-2_SLTB.jpg" alt="Bureh Beach" class="card-img-top img-zoom" style="height: 250px; object-fit: cover;">
+                <span class="position-absolute top-0 end-0 m-3 badge bg-danger rounded-pill px-3 py-2">Adventure</span>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="card-title h5 fw-bold text-primary">Bureh Beach</h3>
+                <p class="text-muted small mb-2">
+                  <i class="fas fa-map-marker-alt text-success me-2"></i>Bureh Town
+                </p>
+                <p class="card-text text-muted flex-grow-1">A surfer's paradise with consistent waves, vibrant beach culture, and stunning sunset views over the Atlantic.</p>
+                <a href="destinations.html" class="btn btn-outline-success btn-sm mt-auto">
+                  Learn More <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- View All Button -->
+        <div class="text-center mt-5">
+          <a href="destinations.html" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
+            View All Destinations <i class="fas fa-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-5 bg-success bg-gradient text-white">
+      <div class="container py-4">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <h2 class="display-6 fw-bold mb-3">Ready to Start Your Adventure?</h2>
+            <p class="lead mb-0 opacity-75">Plan your perfect trip to Freetown with our itinerary builder and wishlist features.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <div class="d-grid gap-2 d-lg-block">
+              <a href="analytics.html" class="btn btn-light btn-lg px-4 mb-2 mb-lg-0 me-lg-2 shadow">
+                <i class="fas fa-route me-2"></i>Build Itinerary
+              </a>
+              <a href="tasks.html" class="btn btn-outline-light btn-lg px-4 shadow">
+                <i class="fas fa-heart me-2"></i>My Wishlist
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Footer Placeholder -->
