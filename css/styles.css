@@ -198,6 +198,79 @@ html {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
+/* Mega Menu Dropdown */
+.mega-dropdown .dropdown-menu {
+  display: none;
+}
+
+.mega-dropdown:hover .dropdown-menu,
+.mega-dropdown .dropdown-menu.show {
+  display: block;
+}
+
+.mega-menu {
+  width: 100vw;
+  max-width: 1200px;
+  left: 50% !important;
+  transform: translateX(-50%);
+  border: none;
+  border-radius: 0;
+  padding: 2rem;
+  margin-top: 0;
+  background: white;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.mega-menu-card {
+  position: relative;
+  display: block;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mega-menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.mega-menu-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.mega-menu-card:hover .mega-menu-img {
+  transform: scale(1.1);
+}
+
+.mega-menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+  z-index: 1;
+}
+
+.mega-menu-title {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0;
+  z-index: 2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
 /* Mobile menu styling */
 @media (max-width: 991px) {
   .navbar-collapse {
@@ -239,6 +312,23 @@ html {
     margin-top: 0.5rem;
     display: block;
     text-align: center;
+  }
+  
+  .mega-menu {
+    position: static !important;
+    transform: none !important;
+    max-width: 100%;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .mega-menu-card {
+    height: 120px;
+  }
+  
+  .mega-menu-title {
+    font-size: 0.9rem;
   }
 }
 
