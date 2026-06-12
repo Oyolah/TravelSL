@@ -51,10 +51,6 @@ function setHeroContent() {
   if (!heroTitle || !heroSubtitle) return;
   
   const heroContent = {
-    'index.html': {
-      title: 'Discover Freetown',
-      subtitle: 'Experience the beauty, culture, and warm hospitality of Sierra Leone\'s vibrant capital'
-    },
     'destinations.html': {
       title: 'Destinations',
       subtitle: 'Explore the beautiful attractions and hidden gems of Freetown and Sierra Leone'

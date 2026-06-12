@@ -112,7 +112,7 @@ const destinations = [
 
 // Function to render destinations
 function renderDestinations(filter = 'all') {
-  const container = document.getElementById('destinations-container');
+  const container = document.querySelector('#destinations-container');
   if (!container) return;
   
   const filteredDestinations = filter === 'all' 
