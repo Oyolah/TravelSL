@@ -229,6 +229,49 @@ function openDestinationModal(destinationId) {
     `<span class="badge bg-light text-dark me-1 mb-1">${f}</span>`
   ).join('');
   
+  // Set destination ID for reviews
+  const reviewsContainer = document.getElementById('reviewsContainer');
+  const reviewForm = document.getElementById('reviewForm');
+  const reviewMessage = document.getElementById('reviewMessage');
+  
+  if (reviewsContainer) {
+    reviewsContainer.setAttribute('data-destination-id', destinationId);
+  }
+  if (reviewForm) {
+    reviewForm.setAttribute('data-destination-id', destinationId);
+  }
+  
+  // Clear any previous review messages
+  if (reviewMessage) {
+    reviewMessage.innerHTML = '';
+  }
+  
+  // Load reviews for this destination
+  if (typeof displayReviews === 'function') {
+    displayReviews(destinationId.toString());
+  }
+  
+  // Check if user already reviewed and disable button if needed
+  const writeReviewBtn = document.querySelector('[data-bs-target="#reviewFormCollapse"]');
+  if (writeReviewBtn) {
+    try {
+      const reviewedDestinations = JSON.parse(localStorage.getItem('reviewedDestinations') || '[]');
+      if (reviewedDestinations.includes(destinationId.toString())) {
+        writeReviewBtn.disabled = true;
+        writeReviewBtn.innerHTML = '<i class="fas fa-check me-2"></i>Review Submitted';
+        writeReviewBtn.classList.remove('btn-outline-success');
+        writeReviewBtn.classList.add('btn-secondary');
+      } else {
+        writeReviewBtn.disabled = false;
+        writeReviewBtn.innerHTML = '<i class="fas fa-pen me-2"></i>Write a Review';
+        writeReviewBtn.classList.remove('btn-secondary');
+        writeReviewBtn.classList.add('btn-outline-success');
+      }
+    } catch (error) {
+      console.error('Error checking review status:', error);
+    }
+  }
+  
   // Show modal
   const modal = new bootstrap.Modal(document.getElementById('destinationModal'));
   modal.show();

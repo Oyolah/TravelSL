@@ -62,6 +62,25 @@
     return PATTERNS.noHTML.test(input) || PATTERNS.noScript.test(input);
   }
 
+  // Generate reference number
+  function generateReferenceNumber() {
+    const prefix = 'INQ';
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `${prefix}-${timestamp}-${random}`;
+  }
+
+  // Save inquiry to localStorage
+  function saveInquiry(inquiry) {
+    try {
+      let inquiries = JSON.parse(localStorage.getItem('contactInquiries') || '[]');
+      inquiries.push(inquiry);
+      localStorage.setItem('contactInquiries', JSON.stringify(inquiries));
+    } catch (error) {
+      console.error('Error saving inquiry:', error);
+    }
+  }
+
   // Validate name
   function validateName(name) {
     const sanitized = sanitizeInput(name);
@@ -415,10 +434,33 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
       
+      // Generate reference number
+      const referenceNumber = generateReferenceNumber();
+      
+      // Create inquiry object
+      const inquiry = {
+        referenceNumber: referenceNumber,
+        name: nameResult.value,
+        email: emailResult.value,
+        phone: phoneResult.value || 'Not provided',
+        subject: subjectResult.value,
+        message: messageResult.value,
+        timestamp: new Date().toISOString(),
+        status: 'pending'
+      };
+      
+      // Store in localStorage
+      saveInquiry(inquiry);
+      
       // Simulate form submission (replace with actual API call)
       setTimeout(function() {
-        // Success
-        showFormMessage('Thank you for your message! We will get back to you within 24-48 hours.', 'success');
+        // Success with reference number
+        showFormMessage(
+          `Thank you for your message! Your inquiry has been submitted successfully.<br>
+          <strong>Reference Number: ${referenceNumber}</strong><br>
+          Please save this reference number for future correspondence. We will get back to you within 24-48 hours.`,
+          'success'
+        );
         
         // Reset form
         form.reset();
