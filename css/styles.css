@@ -227,13 +227,13 @@ html {
 }
 
 .mega-menu {
-  width: 100vw;
-  max-width: 1200px;
-  left: 50% !important;
+  width: 900px;
+  max-width: calc(100vw - 2rem);
+  left: 50%;
   transform: translateX(-50%);
   border: none;
-  border-radius: 0;
-  padding: 2rem;
+  border-radius: 12px;
+  padding: 1rem;
   margin-top: 0;
   background: white;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
