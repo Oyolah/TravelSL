@@ -45,6 +45,8 @@
   
   <!-- Custom JS -->
   <script src="./js/main.js" defer></script>
+  <script src="./js/weather.js" defer></script>
+  <script src="./js/currency.js" defer></script>
 </head>
 <body>
   <!-- Navbar Placeholder -->
@@ -253,6 +255,31 @@
           <a href="destinations.html" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
             View All Destinations <i class="fas fa-arrow-right ms-2"></i>
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weather & Currency Section -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="display-5 fw-bold text-success mb-3">Plan Your Visit</h2>
+          <p class="lead text-muted">Check the weather and exchange rates before you travel</p>
+          <hr class="w-25 mx-auto border-warning border-3 opacity-75">
+        </div>
+        
+        <div class="row g-4">
+          <!-- Weather Widget -->
+          <div class="col-lg-6">
+            <div id="weather-widget"></div>
+            <div id="forecast-widget" class="mt-4"></div>
+          </div>
+          
+          <!-- Currency Widget -->
+          <div class="col-lg-6">
+            <div id="currency-widget" class="mb-4"></div>
+            <div id="currency-converter"></div>
+          </div>
         </div>
       </div>
     </section>
