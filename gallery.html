@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Photo gallery showcasing the beauty of Sierra Leone - beaches, culture, people, and landscapes of Freetown.">
+  <meta name="keywords" content="gallery, photos, Sierra Leone, Freetown, beaches, culture, tourism, images">
+  <meta name="author" content="Visit Freetown Tourism">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Photo Gallery - Visit Freetown">
+  <meta property="og:description" content="Explore stunning photos of Sierra Leone's beaches, culture, and landscapes">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://visitfreetown.com/gallery.html">
+  <meta property="og:image" content="./images/backgrounds/Background-image.png">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Photo Gallery - Visit Freetown">
+  <meta name="twitter:description" content="View stunning photos of Sierra Leone">
+  
+  <title>Photo Gallery - Visit Freetown Tourism</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="./images/logo.png">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./css/styles.css">
+  
+  <!-- Bootstrap JS Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+  
+  <!-- Custom JS -->
+  <script src="./js/main.js" defer></script>
+  
+  <style>
+    /* Gallery Styles */
+    .gallery-section {
+      padding: 80px 0;
+    }
+    
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .gallery-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #198754;
+    }
+    
+    .gallery-header p {
+      font-size: 1.2rem;
+      color: #6c757d;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Filter Buttons */
+    .filter-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 10px 25px;
+      border: 2px solid #198754;
+      background: transparent;
+      color: #198754;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #198754;
+      color: white;
+    }
+    
+    /* Masonry Grid */
+    .gallery-grid {
+      column-count: 4;
+      column-gap: 20px;
+    }
+    
+    @media (max-width: 1200px) {
+      .gallery-grid {
+        column-count: 3;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .gallery-grid {
+        column-count: 2;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .gallery-grid {
+        column-count: 1;
+      }
+    }
+    
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+    
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+    
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+    
+    .gallery-title {
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-category {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      transform: translateY(20px);
+      transition: transform 0.3s ease 0.1s;
+    }
+    
+    .gallery-item:hover .gallery-title,
+    .gallery-item:hover .gallery-category {
+      transform: translateY(0);
+    }
+    
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .lightbox.active {
+      display: flex;
+    }
+    
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+    }
+    
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10000;
+      transition: color 0.3s ease;
+    }
+    
+    .lightbox-close:hover {
+      color: #198754;
+    }
+    
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 2.5rem;
+      cursor: pointer;
+      z-index: 10000;
+      padding: 20px;
+      transition: color 0.3s ease;
+    }
+    
+    .lightbox-nav:hover {
+      color: #198754;
+    }
+    
+    .lightbox-prev {
+      left: 20px;
+    }
+    
+    .lightbox-next {
+      right: 20px;
+    }
+    
+    .lightbox-caption {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 80%;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .gallery-item {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+    .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+    .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+    .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+    .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+    .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+    .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+    .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+    .gallery-item:nth-child(9) { animation-delay: 0.9s; }
+    .gallery-item:nth-child(10) { animation-delay: 1.0s; }
+    .gallery-item:nth-child(11) { animation-delay: 1.1s; }
+    .gallery-item:nth-child(12) { animation-delay: 1.2s; }
+  </style>
+</head>
+<body>
+  <!-- Navbar Placeholder -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section position-relative" style="background: url('./images/gallery/beach-football.jpg') center/cover no-repeat; min-height: 60vh;">
+    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(25, 135, 84, 0.85) 0%, rgba(13, 110, 253, 0.75) 100%);"></div>
+    <div class="container position-relative z-1 d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+      <div class="text-center text-white">
+        <h1 class="display-3 fw-bold mb-4 animate-fade-in">Photo Gallery</h1>
+        <p class="lead mb-4 animate-fade-in" style="animation-delay: 0.2s;">Discover the breathtaking beauty of Sierra Leone through our curated collection of stunning photographs</p>
+        <div class="d-flex justify-content-center gap-3 animate-fade-in" style="animation-delay: 0.4s;">
+          <a href="#gallery" class="btn btn-light btn-lg px-4 py-2 rounded-pill">
+            <i class="fas fa-images me-2"></i>View Gallery
+          </a>
+          <a href="destinations.html" class="btn btn-outline-light btn-lg px-4 py-2 rounded-pill">
+            <i class="fas fa-map-marked-alt me-2"></i>Explore Destinations
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="gallery-section" id="gallery">
+    <div class="container">
+      
+      <!-- Gallery Header -->
+      <div class="gallery-header">
+        <h1>Discover Sierra Leone</h1>
+        <p>From pristine beaches to vibrant culture, explore the stunning beauty of Freetown and beyond through our curated photo collection.</p>
+      </div>
+      
+      <!-- Filter Buttons -->
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="beaches">Beaches</button>
+        <button class="filter-btn" data-filter="culture">Culture</button>
+        <button class="filter-btn" data-filter="food">Food</button>
+        <button class="filter-btn" data-filter="people">People</button>
+        <button class="filter-btn" data-filter="landmarks">Landmarks</button>
+      </div>
+      
+      <!-- Gallery Grid -->
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Gallery items will be populated by JavaScript -->
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <span class="lightbox-nav lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></span>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImage">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+    <span class="lightbox-nav lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></span>
+  </div>
+
+  <!-- Footer Placeholder -->
+  <div id="footer-placeholder"></div>
+
+  <script>
+    // Gallery Data
+    const galleryItems = [
+      {
+        src: './images/gallery/beach-football.jpg',
+        title: 'Beach Football',
+        category: 'beaches',
+        description: 'Local football match on the beautiful beaches of Freetown'
+      },
+      {
+        src: './images/gallery/sierra-leone-people.jpg',
+        title: 'Local Culture',
+        category: 'people',
+        description: 'Warm and welcoming people of Sierra Leone'
+      },
+      {
+        src: './images/gallery/local-food.webp',
+        title: 'Traditional Cuisine',
+        category: 'food',
+        description: 'Delicious local dishes and culinary traditions'
+      },
+      {
+        src: './images/gallery/sierra leone food.jpg',
+        title: 'Sierra Leone Delicacies',
+        category: 'food',
+        description: 'Authentic Sierra Leonean food experience'
+      },
+      {
+        src: './images/gallery/Yvonne-Aki-Sawyer.jpg',
+        title: 'Leadership',
+        category: 'landmarks',
+        description: 'Mayor of Freetown promoting sustainable development'
+      },
+      {
+        src: './images/gallery/president.jpg',
+        title: 'Government',
+        category: 'landmarks',
+        description: 'Government initiatives for tourism development'
+      },
+      {
+        src: './images/gallery/Kids playing footaball.jpg',
+        title: 'Youth Sports',
+        category: 'people',
+        description: 'Young talents enjoying football on the beach'
+      },
+      {
+        src: './images/gallery/ma-degn-beach-festival-1.webp',
+        title: 'Beach Festival',
+        category: 'beaches',
+        description: 'Annual beach festival celebrating Sierra Leone culture'
+      },
+      {
+        src: './images/gallery/m-blog-1.jpg',
+        title: 'Community Life',
+        category: 'people',
+        description: 'Daily life in Sierra Leone communities'
+      },
+      {
+        src: './images/gallery/m-blog-2.jpg',
+        title: 'Local Markets',
+        category: 'culture',
+        description: 'Vibrant markets showcasing local products'
+      },
+      {
+        src: './images/gallery/m-blog-5.jpg',
+        title: 'Traditional Arts',
+        category: 'culture',
+        description: 'Rich artistic heritage of Sierra Leone'
+      },
+      {
+        src: './images/gallery/sl woman farmer.jpg',
+        title: 'Agriculture',
+        category: 'people',
+        description: 'Women farmers contributing to food security'
+      },
+      {
+        src: './images/gallery/health-and-safety.webp',
+        title: 'Healthcare',
+        category: 'landmarks',
+        description: 'Modern healthcare facilities in Freetown'
+      },
+      {
+        src: './images/gallery/health-and-safety-salone.webp',
+        title: 'Safety First',
+        category: 'landmarks',
+        description: 'Ensuring safety for tourists and locals'
+      },
+      {
+        src: './images/gallery/getthereandaround.webp',
+        title: 'Transportation',
+        category: 'landmarks',
+        description: 'Getting around Freetown and beyond'
+      },
+      {
+        src: './images/gallery/emmerson.jpg',
+        title: 'Music & Arts',
+        category: 'culture',
+        description: 'Sierra Leone\'s vibrant music scene'
+      },
+      {
+        src: './images/gallery/food.jpg',
+        title: 'Street Food',
+        category: 'food',
+        description: 'Popular street food options in Freetown'
+      },
+      {
+        src: './images/gallery/post-10.jpg',
+        title: 'Tourism Development',
+        category: 'landmarks',
+        description: 'Infrastructure development for tourism'
+      }
+    ];
+
+    // DOM Elements
+    const galleryGrid = document.getElementById('galleryGrid');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    let currentIndex = 0;
+    let filteredItems = [...galleryItems];
+
+    // Render Gallery
+    function renderGallery(items) {
+      galleryGrid.innerHTML = items.map((item, index) => `
+        <div class="gallery-item" data-category="${item.category}" data-index="${index}">
+          <img src="${item.src}" alt="${item.title}" loading="lazy">
+          <div class="gallery-overlay">
+            <h3 class="gallery-title">${item.title}</h3>
+            <p class="gallery-category">${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // Add click events to gallery items
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const index = parseInt(item.dataset.index);
+          openLightbox(index);
+        });
+      });
+    }
+
+    // Filter Gallery
+    function filterGallery(category) {
+      if (category === 'all') {
+        filteredItems = [...galleryItems];
+      } else {
+        filteredItems = galleryItems.filter(item => item.category === category);
+      }
+      renderGallery(filteredItems);
+    }
+
+    // Filter Button Events
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterGallery(btn.dataset.filter);
+      });
+    });
+
+    // Lightbox Functions
+    function openLightbox(index) {
+      currentIndex = index;
+      const item = filteredItems[index];
+      lightboxImage.src = item.src;
+      lightboxCaption.textContent = item.description;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % filteredItems.length;
+      const item = filteredItems[currentIndex];
+      lightboxImage.src = item.src;
+      lightboxCaption.textContent = item.description;
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length;
+      const item = filteredItems[currentIndex];
+      lightboxImage.src = item.src;
+      lightboxCaption.textContent = item.description;
+    }
+
+    // Lightbox Event Listeners
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxNext.addEventListener('click', nextImage);
+    lightboxPrev.addEventListener('click', prevImage);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+      }
+    });
+
+    // Initialize Gallery
+    renderGallery(galleryItems);
+  </script>
+</body>
+</html>
