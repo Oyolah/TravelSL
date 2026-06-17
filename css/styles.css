@@ -369,13 +369,15 @@ html {
    ========================================== */
 .hero-section {
   position: relative;
-  height: 400px;
-  min-height: 300px;
+  height: 500px;
+  min-height: 400px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+}
+
+.hero-section .carousel-item {
+  height: 500px;
+  min-height: 400px;
+  position: relative;
 }
 
 .hero-overlay {
@@ -393,7 +395,7 @@ html {
   z-index: 1;
   color: white;
   text-align: center;
-  padding: 2rem;
+  padding: 4rem;
 }
 
 .hero-title {
@@ -413,10 +415,12 @@ html {
 }
 
 @media (max-width: 768px) {
-  .hero-section {
-    height: 300px;
-    min-height: 250px;
+  .hero-section,
+  .hero-section .carousel-item {
+    height: 400px;
+    min-height: 350px;
   }
+  
   
   .hero-title {
     font-size: 2rem;
@@ -468,7 +472,7 @@ html {
   z-index: 1;
   color: white;
   text-align: center;
-  padding: 2rem;
+  padding: 5rem;
 }
 
 .hero-title {
