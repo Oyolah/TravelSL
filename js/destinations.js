@@ -255,7 +255,7 @@ function openDestinationModal(destinationId) {
   const writeReviewBtn = document.querySelector('[data-bs-target="#reviewFormCollapse"]');
   if (writeReviewBtn) {
     try {
-      const reviewedDestinations = JSON.parse(localStorage.getItem('reviewedDestinations') || '[]');
+      const reviewedDestinations = getStorage('reviewedDestinations', []);
       if (reviewedDestinations.includes(destinationId.toString())) {
         writeReviewBtn.disabled = true;
         writeReviewBtn.innerHTML = '<i class="fas fa-check me-2"></i>Review Submitted';
@@ -284,51 +284,6 @@ function addToWishlistFromModal() {
     // Close modal
     const modal = bootstrap.Modal.getInstance(document.getElementById('destinationModal'));
     modal.hide();
-  }
-}
-
-// Function to add to wishlist with priority
-function addToWishlist(destinationId, priority = 'medium') {
-  const destination = destinations.find(d => d.id === destinationId);
-  if (!destination) return;
-
-  // Get existing wishlist from localStorage
-  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-
-  // Check if already in wishlist
-  if (wishlist.some(item => item.id === destinationId)) {
-    alert('This destination is already in your wishlist!');
-    return;
-  }
-
-  // Add to wishlist with priority
-  wishlist.push({
-    ...destination,
-    priority: priority,
-    addedAt: new Date().toISOString()
-  });
-  localStorage.setItem('wishlist', JSON.stringify(wishlist));
-
-  alert(`${destination.name} added to wishlist with ${priority} priority!`);
-}
-
-// Function to remove from wishlist
-function removeFromWishlist(destinationId) {
-  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-  wishlist = wishlist.filter(item => item.id !== destinationId);
-  localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  alert('Destination removed from wishlist!');
-}
-
-// Function to edit priority
-function editPriority(destinationId, newPriority) {
-  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-  const itemIndex = wishlist.findIndex(item => item.id === destinationId);
-  
-  if (itemIndex !== -1) {
-    wishlist[itemIndex].priority = newPriority;
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-    alert('Priority updated successfully!');
   }
 }
 

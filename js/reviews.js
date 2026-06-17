@@ -112,8 +112,8 @@
         id: generateReviewId(),
         destinationId: destinationId,
         rating: rating,
-        name: sanitize(name),
-        comment: sanitize(comment),
+        name: sanitizeInput(name),
+        comment: sanitizeInput(comment),
         timestamp: new Date().toISOString(),
         helpful: 0
       };
@@ -284,36 +284,22 @@
 
   // Get reviews for a destination
   function getReviews(destinationId) {
-    try {
-      const allReviews = JSON.parse(localStorage.getItem('destinationReviews') || '[]');
-      return allReviews.filter(r => r.destinationId === destinationId);
-    } catch (error) {
-      console.error('Error loading reviews:', error);
-      return [];
-    }
+    const allReviews = getStorage('destinationReviews', []);
+    return allReviews.filter(r => r.destinationId === destinationId);
   }
 
   // Check if user has already reviewed this destination
   function hasUserReviewed(destinationId) {
-    try {
-      const reviewedDestinations = JSON.parse(localStorage.getItem('reviewedDestinations') || '[]');
-      return reviewedDestinations.includes(destinationId.toString());
-    } catch (error) {
-      console.error('Error checking user reviews:', error);
-      return false;
-    }
+    const reviewedDestinations = getStorage('reviewedDestinations', []);
+    return reviewedDestinations.includes(destinationId.toString());
   }
 
   // Mark destination as reviewed
   function markAsReviewed(destinationId) {
-    try {
-      let reviewedDestinations = JSON.parse(localStorage.getItem('reviewedDestinations') || '[]');
-      if (!reviewedDestinations.includes(destinationId.toString())) {
-        reviewedDestinations.push(destinationId.toString());
-        localStorage.setItem('reviewedDestinations', JSON.stringify(reviewedDestinations));
-      }
-    } catch (error) {
-      console.error('Error marking as reviewed:', error);
+    let reviewedDestinations = getStorage('reviewedDestinations', []);
+    if (!reviewedDestinations.includes(destinationId.toString())) {
+      reviewedDestinations.push(destinationId.toString());
+      setStorage('reviewedDestinations', reviewedDestinations);
     }
   }
 
@@ -330,46 +316,32 @@
 
   // Save review to localStorage
   function saveReview(review) {
-    try {
-      let reviews = JSON.parse(localStorage.getItem('destinationReviews') || '[]');
-      reviews.push(review);
-      localStorage.setItem('destinationReviews', JSON.stringify(reviews));
-    } catch (error) {
-      console.error('Error saving review:', error);
-    }
+    let reviews = getStorage('destinationReviews', []);
+    reviews.push(review);
+    setStorage('destinationReviews', reviews);
   }
 
   // Mark review as helpful
   window.markHelpful = function(reviewId) {
-    try {
-      let reviews = JSON.parse(localStorage.getItem('destinationReviews') || '[]');
-      const review = reviews.find(r => r.id === reviewId);
+    let reviews = getStorage('destinationReviews', []);
+    const review = reviews.find(r => r.id === reviewId);
+    
+    if (review) {
+      review.helpful = (review.helpful || 0) + 1;
+      setStorage('destinationReviews', reviews);
       
-      if (review) {
-        review.helpful = (review.helpful || 0) + 1;
-        localStorage.setItem('destinationReviews', JSON.stringify(reviews));
-        
-        // Refresh display
-        const container = document.querySelector('#reviewsContainer');
-        if (container) {
-          const destinationId = container.getAttribute('data-destination-id');
-          displayReviews(destinationId);
-        }
+      // Refresh display
+      const container = document.querySelector('#reviewsContainer');
+      if (container) {
+        const destinationId = container.getAttribute('data-destination-id');
+        displayReviews(destinationId);
       }
-    } catch (error) {
-      console.error('Error marking helpful:', error);
     }
   };
 
-  // Helper functions
+  // Helper functions - using utils.js
   function generateReviewId() {
-    return 'REV-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 7);
-  }
-
-  function sanitize(input) {
-    const div = document.createElement('div');
-    div.textContent = input;
-    return div.innerHTML;
+    return generateId('REV');
   }
 
   function isValidEmail(email) {

@@ -15,70 +15,25 @@
     LOCKOUT_DURATION: 300000 // 5 minutes in milliseconds
   };
 
-  // Security tracking
-  let submissionAttempts = 0;
-  let lastSubmissionTime = 0;
-  let isLocked = false;
-  let lockoutEndTime = 0;
+  // Rate limiter instance
+  const rateLimiter = new RateLimiter({
+    maxAttempts: CONFIG.MAX_ATTEMPTS,
+    cooldown: CONFIG.SUBMISSION_COOLDOWN,
+    lockoutDuration: CONFIG.LOCKOUT_DURATION
+  });
 
   // Validation patterns
   const PATTERNS = {
     name: /^[a-zA-Z\s'-]+$/,
     email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    phone: /^[\d\s\+\-\(\)]+$/,
-    noHTML: /<[^>]*>/g,
-    noScript: /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-    sqlInjection: /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION|SCRIPT)\b)/gi
+    phone: /^[\d\s\+\-\(\)]+$/
   };
-
-  // Sanitization function
-  function sanitizeInput(input) {
-    if (typeof input !== 'string') return '';
-    
-    // Remove HTML tags
-    let sanitized = input.replace(PATTERNS.noHTML, '');
-    
-    // Remove script tags
-    sanitized = sanitized.replace(PATTERNS.noScript, '');
-    
-    // Trim whitespace
-    sanitized = sanitized.trim();
-    
-    // Encode special characters
-    const div = document.createElement('div');
-    div.textContent = sanitized;
-    sanitized = div.innerHTML;
-    
-    return sanitized;
-  }
-
-  // Check for SQL injection attempts
-  function containsSQLInjection(input) {
-    return PATTERNS.sqlInjection.test(input);
-  }
-
-  // Check for XSS attempts
-  function containsXSS(input) {
-    return PATTERNS.noHTML.test(input) || PATTERNS.noScript.test(input);
-  }
-
-  // Generate reference number
-  function generateReferenceNumber() {
-    const prefix = 'INQ';
-    const timestamp = Date.now().toString(36).toUpperCase();
-    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return `${prefix}-${timestamp}-${random}`;
-  }
 
   // Save inquiry to localStorage
   function saveInquiry(inquiry) {
-    try {
-      let inquiries = JSON.parse(localStorage.getItem('contactInquiries') || '[]');
-      inquiries.push(inquiry);
-      localStorage.setItem('contactInquiries', JSON.stringify(inquiries));
-    } catch (error) {
-      console.error('Error saving inquiry:', error);
-    }
+    let inquiries = getStorage('contactInquiries', []);
+    inquiries.push(inquiry);
+    setStorage('contactInquiries', inquiries);
   }
 
   // Validate name
@@ -199,60 +154,10 @@
     return { valid: true, value: sanitized };
   }
 
-  // Check rate limiting
-  function checkRateLimit() {
-    const currentTime = Date.now();
-    
-    // Check if locked out
-    if (isLocked) {
-      if (currentTime < lockoutEndTime) {
-        const remainingTime = Math.ceil((lockoutEndTime - currentTime) / 1000);
-        return { allowed: false, message: `Too many attempts. Please try again in ${remainingTime} seconds.` };
-      } else {
-        // Unlock
-        isLocked = false;
-        submissionAttempts = 0;
-      }
-    }
-    
-    // Check cooldown
-    if (lastSubmissionTime > 0 && (currentTime - lastSubmissionTime) < CONFIG.SUBMISSION_COOLDOWN) {
-      const remainingTime = Math.ceil((CONFIG.SUBMISSION_COOLDOWN - (currentTime - lastSubmissionTime)) / 1000);
-      return { allowed: false, message: `Please wait ${remainingTime} seconds before submitting again.` };
-    }
-    
-    // Check max attempts
-    if (submissionAttempts >= CONFIG.MAX_ATTEMPTS) {
-      isLocked = true;
-      lockoutEndTime = currentTime + CONFIG.LOCKOUT_DURATION;
-      return { allowed: false, message: `Too many submission attempts. Please try again in 5 minutes.` };
-    }
-    
-    return { allowed: true };
-  }
-
-  // Show error message
-  function showError(input, message) {
-    const formGroup = input.closest('.mb-3, .mb-4');
-    const feedback = formGroup.querySelector('.invalid-feedback');
-    
-    input.classList.add('is-invalid');
-    input.classList.remove('is-valid');
-    feedback.textContent = message;
-  }
-
-  // Show success
-  function showSuccess(input) {
-    const formGroup = input.closest('.mb-3, .mb-4');
-    
-    input.classList.remove('is-invalid');
-    input.classList.add('is-valid');
-  }
-
-  // Clear validation
-  function clearValidation(input) {
-    input.classList.remove('is-invalid', 'is-valid');
-  }
+  // Alias utility functions for backward compatibility
+  const showError = showInputError;
+  const showSuccess = showInputSuccess;
+  const clearValidation = clearInputValidation;
 
   // Show form message
   function showFormMessage(message, type) {
@@ -362,7 +267,7 @@
       e.preventDefault();
       
       // Check rate limiting
-      const rateLimitCheck = checkRateLimit();
+      const rateLimitCheck = rateLimiter.checkAllowed();
       if (!rateLimitCheck.allowed) {
         showFormMessage(rateLimitCheck.message, 'error');
         return;
@@ -427,15 +332,14 @@
       }
       
       // Update rate limiting
-      submissionAttempts++;
-      lastSubmissionTime = Date.now();
+      rateLimiter.recordAttempt();
       
       // Disable submit button
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
       
       // Generate reference number
-      const referenceNumber = generateReferenceNumber();
+      const referenceNumber = generateId('INQ');
       
       // Create inquiry object
       const inquiry = {

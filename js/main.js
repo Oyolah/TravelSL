@@ -14,38 +14,38 @@ document.addEventListener('DOMContentLoaded', function() {
   handleNavbarScroll();
 });
 
+// Generic component loader
+function loadComponent(componentName, placeholderId, callback = null) {
+  const placeholder = document.querySelector(placeholderId);
+  if (!placeholder) return;
+  
+  fetch(`./components/${componentName}.html`)
+    .then(response => response.text())
+    .then(data => {
+      placeholder.innerHTML = data;
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    })
+    .catch(error => console.error(`Error loading ${componentName}:`, error));
+}
+
 // Load navbar component
 function loadNavbar() {
-  const navbarPlaceholder = document.querySelector('#navbar-placeholder');
-  if (navbarPlaceholder) {
-    fetch('./components/navbar.html')
-      .then(response => response.text())
-      .then(data => {
-        navbarPlaceholder.innerHTML = data;
-        setActiveNavLink();
-        initDarkMode();
-        // Initialize Bootstrap Collapse for dynamically loaded navbar
-        const collapseEl = document.querySelector('#navbarNav');
-        if (collapseEl && typeof bootstrap !== 'undefined') {
-          new bootstrap.Collapse(collapseEl, { toggle: false });
-        }
-      })
-      .catch(error => console.error('Error loading navbar:', error));
-  }
+  loadComponent('navbar', '#navbar-placeholder', function() {
+    setActiveNavLink();
+    initDarkMode();
+    // Initialize Bootstrap Collapse for dynamically loaded navbar
+    const collapseEl = document.querySelector('#navbarNav');
+    if (collapseEl && typeof bootstrap !== 'undefined') {
+      new bootstrap.Collapse(collapseEl, { toggle: false });
+    }
+  });
 }
 
 // Load hero component
 function loadHero() {
-  const heroPlaceholder = document.querySelector('#hero-placeholder');
-  if (heroPlaceholder) {
-    fetch('./components/hero.html')
-      .then(response => response.text())
-      .then(data => {
-        heroPlaceholder.innerHTML = data;
-        setHeroContent();
-      })
-      .catch(error => console.error('Error loading hero:', error));
-  }
+  loadComponent('hero', '#hero-placeholder', setHeroContent);
 }
 
 // Set hero content based on page
@@ -90,16 +90,7 @@ function setHeroContent() {
 
 // Load footer component
 function loadFooter() {
-  const footerPlaceholder = document.querySelector('#footer-placeholder');
-  if (footerPlaceholder) {
-    fetch('./components/footer.html')
-      .then(response => response.text())
-      .then(data => {
-        footerPlaceholder.innerHTML = data;
-        setCurrentYear();
-      })
-      .catch(error => console.error('Error loading footer:', error));
-  }
+  loadComponent('footer', '#footer-placeholder', setCurrentYear);
 }
 
 // Set active nav link based on current page

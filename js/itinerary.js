@@ -10,7 +10,7 @@ function createNewItinerary() {
   const name = nameInput.value.trim() || 'New Itinerary';
   
   const newItinerary = {
-    id: Date.now(),
+    id: generateId('ITN'),
     name: name,
     days: [],
     createdAt: new Date().toISOString()
@@ -233,22 +233,19 @@ function removeDay(dayIndex) {
 
 // Save all itineraries to localStorage
 function saveAllItineraries() {
-  localStorage.setItem('itineraries', JSON.stringify(allItineraries));
+  setStorage('itineraries', allItineraries);
 }
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', function() {
   // Try to load saved itineraries
-  const saved = localStorage.getItem('itineraries');
-  if (saved) {
-    allItineraries = JSON.parse(saved);
-    if (allItineraries.length > 0) {
-      currentItineraryId = allItineraries[0].id;
-      const itinerary = getCurrentItinerary();
-      const nameInput = document.querySelector('#itinerary-name');
-      if (nameInput && itinerary) {
-        nameInput.value = itinerary.name;
-      }
+  allItineraries = getStorage('itineraries', []);
+  if (allItineraries.length > 0) {
+    currentItineraryId = allItineraries[0].id;
+    const itinerary = getCurrentItinerary();
+    const nameInput = document.querySelector('#itinerary-name');
+    if (nameInput && itinerary) {
+      nameInput.value = itinerary.name;
     }
   }
   renderItineraryList();

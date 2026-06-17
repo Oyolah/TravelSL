@@ -65,47 +65,6 @@ function addMarkers(map, locations) {
   return markers;
 }
 
-// Initialize destination map with popular locations
-function initializeDestinationMap() {
-  const map = initializeMap('destination-map', FREETOWN_CENTER, 11);
-  if (!map) return;
-  
-  const destinations = [
-    {
-      lat: 8.4657,
-      lon: -13.2317,
-      title: 'Cotton Tree',
-      description: 'Historic landmark in the heart of Freetown'
-    },
-    {
-      lat: 8.4897,
-      lon: -13.2284,
-      title: 'Lumley Beach',
-      description: 'Popular beach with restaurants and nightlife'
-    },
-    {
-      lat: 8.4234,
-      lon: -13.1847,
-      title: 'Tacugama Chimpanzee Sanctuary',
-      description: 'Wildlife sanctuary in the rainforest'
-    },
-    {
-      lat: 8.4500,
-      lon: -13.2150,
-      title: 'National Museum',
-      description: 'Sierra Leone\'s history and culture'
-    },
-    {
-      lat: 8.4800,
-      lon: -13.2400,
-      title: 'Aberdeen Beach',
-      description: 'Beautiful beach area with resorts'
-    }
-  ];
-  
-  addMarkers(map, destinations);
-}
-
 // Initialize accommodation map
 function initializeAccommodationMap() {
   const map = initializeMap('accommodation-map', FREETOWN_CENTER, 12);
@@ -154,10 +113,6 @@ function initializeSingleLocationMap(containerId, lat, lon, title, description) 
 // Initialize maps based on page
 document.addEventListener('DOMContentLoaded', function() {
   // Check which map containers exist and initialize accordingly
-  if (document.querySelector('#destination-map')) {
-    initializeDestinationMap();
-  }
-  
   if (document.querySelector('#accommodation-map')) {
     initializeAccommodationMap();
   }

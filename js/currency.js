@@ -5,43 +5,19 @@ const TARGET_CURRENCIES = ['EUR', 'GBP', 'SLL']; // Sierra Leone Leone
 
 // Fetch exchange rates
 async function fetchExchangeRates() {
-  try {
-    // Using free tier - no API key needed for basic access
-    const response = await fetch(`https://open.exchangerate-api.com/v6/latest/${BASE_CURRENCY}`);
-    
-    if (!response.ok) {
-      throw new Error('Exchange rate data not available');
-    }
-    
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching exchange rates:', error);
-    return null;
-  }
+  return await fetchAPI(`https://open.exchangerate-api.com/v6/latest/${BASE_CURRENCY}`);
 }
 
 // Convert currency
 async function convertCurrency(amount, from, to) {
-  try {
-    const response = await fetch(`https://open.exchangerate-api.com/v6/latest/${from}`);
-    
-    if (!response.ok) {
-      throw new Error('Conversion failed');
-    }
-    
-    const data = await response.json();
-    const rate = data.rates[to];
-    
-    if (!rate) {
-      throw new Error(`Currency ${to} not found`);
-    }
-    
-    return amount * rate;
-  } catch (error) {
-    console.error('Error converting currency:', error);
+  const data = await fetchAPI(`https://open.exchangerate-api.com/v6/latest/${from}`);
+  
+  if (!data || !data.rates || !data.rates[to]) {
+    console.error(`Currency conversion failed: ${to} not found`);
     return null;
   }
+  
+  return amount * data.rates[to];
 }
 
 // Display currency widget

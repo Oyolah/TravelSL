@@ -197,8 +197,6 @@ html {
 
 /* Star Rating System */
 .star-rating {
-  display: inline-flex;
-  gap: 0.25rem;
   font-size: 1.5rem;
 }
 
@@ -381,36 +379,23 @@ html {
 }
 
 .hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
   z-index: -1;
 }
 
 .hero-content {
-  position: relative;
-  z-index: 1;
-  color: white;
-  text-align: center;
   padding: 4rem;
 }
 
 .hero-title {
   font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   letter-spacing: 1px;
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  margin-bottom: 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  font-weight: 400;
   opacity: 0.95;
 }
 
@@ -439,9 +424,6 @@ html {
   height: 100vh;
   min-height: 600px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .hero-video-bg {
@@ -471,7 +453,6 @@ html {
   position: relative;
   z-index: 1;
   color: white;
-  text-align: center;
   padding: 5rem;
 }
 
@@ -494,20 +475,11 @@ html {
 }
 
 .hero-buttons {
-  display: flex;
   gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 .btn-hero-primary {
   background: linear-gradient(135deg, var(--sl-green) 0%, #16a34a 100%);
-  color: white;
-  border: none;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 50px;
   box-shadow: 0 8px 20px rgba(30, 181, 58, 0.4);
   transition: all 0.3s ease;
 }
@@ -515,35 +487,22 @@ html {
 .btn-hero-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(30, 181, 58, 0.5);
-  color: white;
 }
 
 .btn-hero-outline {
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 50px;
   transition: all 0.3s ease;
 }
 
 .btn-hero-outline:hover {
-  background: white;
-  color: var(--brand-primary);
   transform: translateY(-3px);
 }
 
 .scroll-indicator {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
   color: white;
   font-size: 2rem;
   animation: bounce 2s infinite;
   cursor: pointer;
+  bottom: 30px;
 }
 
 @keyframes bounce {
@@ -562,21 +521,14 @@ html {
    SECTION TITLE
    ========================================== */
 .section-title {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.section-title h2 {
   font-size: 2.5rem;
   font-weight: 800;
   color: var(--brand-primary);
-  margin-bottom: 1rem;
   position: relative;
-  display: inline-block;
   padding-bottom: 1rem;
 }
 
-.section-title h2::after {
+.section-title::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -586,11 +538,6 @@ html {
   height: 4px;
   background: var(--sl-gold);
   border-radius: 2px;
-}
-
-.section-title .lead {
-  color: #666;
-  font-size: 1.1rem;
 }
 
 /* ==========================================
@@ -647,8 +594,6 @@ html {
 .footer {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   color: rgba(255, 255, 255, 0.9);
-  padding: 3rem 0 1rem;
-  margin-top: 4rem;
 }
 
 .footer h5 {
@@ -687,8 +632,6 @@ html {
 }
 
 .social-links {
-  display: flex;
-  gap: 1rem;
   margin-top: 1rem;
 }
 
@@ -696,10 +639,6 @@ html {
   width: 45px;
   height: 45px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 1.2rem;
   transition: var(--transition-smooth);
 }
@@ -712,10 +651,6 @@ html {
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  text-align: center;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -769,13 +704,9 @@ html {
 .dark-mode-toggle {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.6);
   background: transparent;
   color: #FFD700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;

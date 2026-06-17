@@ -4,40 +4,16 @@ const FREETOWN_COORDS = { lat: 8.4657, lon: -13.2317 };
 
 // Fetch current weather for Freetown
 async function fetchWeather() {
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${FREETOWN_COORDS.lat}&lon=${FREETOWN_COORDS.lon}&units=metric&appid=${WEATHER_API_KEY}`
-    );
-    
-    if (!response.ok) {
-      throw new Error('Weather data not available');
-    }
-    
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching weather:', error);
-    return null;
-  }
+  return await fetchAPI(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${FREETOWN_COORDS.lat}&lon=${FREETOWN_COORDS.lon}&units=metric&appid=${WEATHER_API_KEY}`
+  );
 }
 
 // Fetch 5-day forecast
 async function fetchForecast() {
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${FREETOWN_COORDS.lat}&lon=${FREETOWN_COORDS.lon}&units=metric&appid=${WEATHER_API_KEY}`
-    );
-    
-    if (!response.ok) {
-      throw new Error('Forecast data not available');
-    }
-    
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching forecast:', error);
-    return null;
-  }
+  return await fetchAPI(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${FREETOWN_COORDS.lat}&lon=${FREETOWN_COORDS.lon}&units=metric&appid=${WEATHER_API_KEY}`
+  );
 }
 
 // Display weather widget
