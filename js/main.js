@@ -23,6 +23,7 @@ function loadNavbar() {
       .then(data => {
         navbarPlaceholder.innerHTML = data;
         setActiveNavLink();
+        initDarkMode();
         // Initialize Bootstrap Collapse for dynamically loaded navbar
         const collapseEl = document.querySelector('#navbarNav');
         if (collapseEl && typeof bootstrap !== 'undefined') {
@@ -135,4 +136,35 @@ function handleNavbarScroll() {
       }
     }
   });
+}
+
+// Dark Mode Toggle
+function initDarkMode() {
+  const toggle = document.querySelector('#darkModeToggle');
+  if (!toggle) return;
+
+  // Apply saved theme on load
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateToggleIcon(toggle, savedTheme);
+
+  // Toggle on click
+  toggle.addEventListener('click', function() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateToggleIcon(toggle, next);
+  });
+}
+
+function updateToggleIcon(toggle, theme) {
+  const icon = toggle.querySelector('i');
+  if (theme === 'dark') {
+    icon.classList.remove('fa-moon');
+    icon.classList.add('fa-sun');
+  } else {
+    icon.classList.remove('fa-sun');
+    icon.classList.add('fa-moon');
+  }
 }
