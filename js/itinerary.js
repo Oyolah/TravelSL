@@ -7,7 +7,20 @@ let currentItineraryId = null;
 // Create new itinerary
 function createNewItinerary() {
   const nameInput = document.querySelector('#itinerary-name');
-  const name = nameInput.value.trim() || 'New Itinerary';
+  let name = nameInput.value.trim();
+  
+  // If no name provided, auto-generate a unique one
+  if (!name) {
+    let counter = allItineraries.length + 1;
+    name = `My Sierra Leone Trip ${counter}`;
+    
+    // Ensure uniqueness for auto-generated names only
+    while (allItineraries.some(i => i.name === name)) {
+      counter++;
+      name = `My Sierra Leone Trip ${counter}`;
+    }
+  }
+  // If user provided a name, use it exactly as typed (no modification)
   
   const newItinerary = {
     id: generateId('ITN'),
@@ -21,7 +34,9 @@ function createNewItinerary() {
   saveAllItineraries();
   renderItineraryList();
   renderDays();
-  nameInput.value = name;
+  
+  // Clear the input field
+  nameInput.value = '';
 }
 
 // Update current itinerary name
@@ -39,12 +54,20 @@ function updateItineraryName() {
 
 // Switch to a different itinerary
 function switchItinerary(id) {
-  currentItineraryId = id;
-  const itinerary = allItineraries.find(i => i.id === id);
+  // Ensure ID is treated as string for consistent comparison
+  const stringId = String(id);
+  currentItineraryId = stringId;
+  
+  const itinerary = allItineraries.find(i => String(i.id) === stringId);
   if (itinerary) {
-    document.querySelector('#itinerary-name').value = itinerary.name;
+    const nameInput = document.querySelector('#itinerary-name');
+    if (nameInput) {
+      nameInput.value = itinerary.name;
+    }
     renderDays();
     renderItineraryList();
+  } else {
+    console.error('Itinerary not found:', id, 'Available:', allItineraries.map(i => i.id));
   }
 }
 
@@ -58,54 +81,81 @@ function renderItineraryList() {
     return;
   }
   
-  container.innerHTML = allItineraries.map(itinerary => `
-    <div class="d-flex align-items-center justify-content-between p-2 mb-2 ${itinerary.id === currentItineraryId ? 'bg-success bg-opacity-10 border border-success' : 'bg-light'} rounded">
+  container.innerHTML = allItineraries.map(itinerary => {
+    const isActive = String(itinerary.id) === String(currentItineraryId);
+    return `
+    <div class="d-flex align-items-center justify-content-between p-2 mb-2 ${isActive ? 'bg-success bg-opacity-10 border border-success' : 'bg-light'} rounded">
       <div>
         <strong>${itinerary.name}</strong>
         <small class="text-muted d-block">${itinerary.days.length} day(s)</small>
       </div>
       <div>
-        <button class="btn btn-sm btn-outline-success" onclick="switchItinerary(${itinerary.id}); addDay();">
+        <button class="btn btn-sm btn-outline-success" onclick="switchItinerary('${itinerary.id}'); setTimeout(addDay, 50);">
           <i class="fas fa-plus"></i> Day
         </button>
-        <button class="btn btn-sm btn-outline-primary" onclick="switchItinerary(${itinerary.id})">
+        <button class="btn btn-sm btn-outline-primary" onclick="switchItinerary('${itinerary.id}')">
           <i class="fas fa-eye"></i>
         </button>
-        <button class="btn btn-sm btn-outline-danger" onclick="deleteItinerary(${itinerary.id})">
+        <button class="btn btn-sm btn-outline-danger" onclick="deleteItinerary('${itinerary.id}')">
           <i class="fas fa-trash"></i>
         </button>
       </div>
     </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // Delete specific itinerary
 function deleteItinerary(id) {
-  if (confirm('Are you sure you want to delete this itinerary?')) {
-    allItineraries = allItineraries.filter(i => i.id !== id);
-    if (currentItineraryId === id) {
-      currentItineraryId = allItineraries.length > 0 ? allItineraries[0].id : null;
-    }
-    saveAllItineraries();
-    renderItineraryList();
-    renderDays();
-    
-    if (currentItineraryId) {
-      const itinerary = allItineraries.find(i => i.id === currentItineraryId);
-      document.querySelector('#itinerary-name').value = itinerary.name;
+  if (!confirm('Are you sure you want to delete this itinerary?')) {
+    return;
+  }
+  
+  // Ensure ID is treated as string for consistent comparison
+  const stringId = String(id);
+  
+  // Filter out the itinerary to delete
+  allItineraries = allItineraries.filter(i => String(i.id) !== stringId);
+  
+  // Update current itinerary ID if we deleted the current one
+  if (String(currentItineraryId) === stringId) {
+    currentItineraryId = allItineraries.length > 0 ? allItineraries[0].id : null;
+  }
+  
+  saveAllItineraries();
+  
+  // Update the name input
+  const nameInput = document.querySelector('#itinerary-name');
+  if (nameInput) {
+    if (currentItineraryId && allItineraries.length > 0) {
+      const itinerary = allItineraries.find(i => String(i.id) === String(currentItineraryId));
+      nameInput.value = itinerary ? itinerary.name : '';
     } else {
-      document.querySelector('#itinerary-name').value = '';
+      nameInput.value = '';
     }
   }
+  
+  renderItineraryList();
+  renderDays();
 }
 
 // Get current itinerary
 function getCurrentItinerary() {
-  return allItineraries.find(i => i.id === currentItineraryId);
+  if (!currentItineraryId) return null;
+  return allItineraries.find(i => String(i.id) === String(currentItineraryId));
 }
 
 // Add new day
 function addDay() {
+  // If no current itinerary but itineraries exist, select the first one
+  if (!currentItineraryId && allItineraries.length > 0) {
+    currentItineraryId = allItineraries[0].id;
+    const nameInput = document.querySelector('#itinerary-name');
+    if (nameInput) {
+      nameInput.value = allItineraries[0].name;
+    }
+  }
+  
   const itinerary = getCurrentItinerary();
   if (!itinerary) {
     alert('Please create an itinerary first!');
