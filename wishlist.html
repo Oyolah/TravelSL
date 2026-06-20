@@ -65,21 +65,146 @@
           <p class="lead">Your saved destinations for the perfect Sierra Leone adventure</p>
         </div>
         
+        <!-- Alert for empty wishlist -->
+        <div id="empty-wishlist" class="alert alert-info d-none" role="alert">
+          <div class="text-center py-3">
+            <i class="fas fa-heart text-muted mb-3" style="font-size: 3rem;"></i>
+            <h4 class="alert-heading">Your wishlist is empty</h4>
+            <p class="mb-0">Start adding destinations to plan your perfect trip!</p>
+            <a href="destinations.html" class="btn btn-success mt-3">
+              <i class="fas fa-compass me-2"></i>Explore Destinations
+            </a>
+          </div>
+        </div>
+        
+        <!-- View Toggle -->
+        <div class="d-flex justify-content-end mb-4" id="view-toggle-container">
+          <div class="btn-group" role="group" aria-label="View toggle">
+            <input type="radio" class="btn-check" name="viewToggle" id="cardView" autocomplete="off" checked onchange="toggleView('card')">
+            <label class="btn btn-outline-success" for="cardView">
+              <i class="fas fa-th-large me-2"></i>Card View
+            </label>
+            <input type="radio" class="btn-check" name="viewToggle" id="tableView" autocomplete="off" onchange="toggleView('table')">
+            <label class="btn btn-outline-success" for="tableView">
+              <i class="fas fa-table me-2"></i>Table View
+            </label>
+          </div>
+        </div>
+        
+        <!-- Card View -->
         <div id="wishlist-container" class="row g-4">
           <!-- Wishlist items will be rendered here -->
         </div>
         
-        <div id="empty-wishlist" class="text-center py-5 d-none">
-          <i class="fas fa-heart text-muted mb-3" style="font-size: 4rem;"></i>
-          <h3 class="text-muted">Your wishlist is empty</h3>
-          <p class="text-muted">Start adding destinations to plan your perfect trip!</p>
-          <a href="destinations.html" class="btn btn-success btn-lg mt-3">
-            <i class="fas fa-compass me-2"></i>Explore Destinations
-          </a>
+        <!-- Table View -->
+        <div id="wishlist-table-container" class="d-none">
+          <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="fas fa-list me-2"></i>Wishlist Table View</h5>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Image</th>
+                      <th onclick="sortTable('name')" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Sort by destination name">Destination <i class="fas fa-sort text-muted ms-1"></i></th>
+                      <th onclick="sortTable('location')" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Sort by location">Location <i class="fas fa-sort text-muted ms-1"></i></th>
+                      <th onclick="sortTable('category')" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Sort by category">Category <i class="fas fa-sort text-muted ms-1"></i></th>
+                      <th onclick="sortTable('rating')" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Sort by rating">Rating <i class="fas fa-sort text-muted ms-1"></i></th>
+                      <th onclick="sortTable('priority')" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Sort by priority">Priority <i class="fas fa-sort text-muted ms-1"></i></th>
+                      <th onclick="sortTable('addedAt')" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Sort by date added">Added Date <i class="fas fa-sort text-muted ms-1"></i></th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="wishlist-table-body">
+                    <!-- Table rows will be rendered here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Analytics Section -->
+        <div id="analytics-section" class="mt-5">
+          <h4 class="mb-4"><i class="fas fa-chart-bar me-2 text-success"></i>Wishlist Analytics</h4>
+          <div class="row g-4">
+            <div class="col-md-3">
+              <div class="card shadow-sm border-0 bg-primary text-white h-100">
+                <div class="card-body text-center">
+                  <i class="fas fa-heart fa-3x mb-3 opacity-75"></i>
+                  <h3 class="display-6 fw-bold" id="total-wishlist">0</h3>
+                  <p class="mb-0">Total Destinations</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card shadow-sm border-0 bg-danger text-white h-100">
+                <div class="card-body text-center">
+                  <i class="fas fa-exclamation-circle fa-3x mb-3 opacity-75"></i>
+                  <h3 class="display-6 fw-bold" id="high-priority">0</h3>
+                  <p class="mb-0">High Priority</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card shadow-sm border-0 bg-warning text-dark h-100">
+                <div class="card-body text-center">
+                  <i class="fas fa-minus-circle fa-3x mb-3 opacity-75"></i>
+                  <h3 class="display-6 fw-bold" id="medium-priority">0</h3>
+                  <p class="mb-0">Medium Priority</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card shadow-sm border-0 bg-info text-white h-100">
+                <div class="card-body text-center">
+                  <i class="fas fa-arrow-down fa-3x mb-3 opacity-75"></i>
+                  <h3 class="display-6 fw-bold" id="low-priority">0</h3>
+                  <p class="mb-0">Low Priority</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Priority Distribution Progress Bar -->
+          <div class="card shadow-sm mt-4">
+            <div class="card-header bg-light">
+              <h6 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Priority Distribution</h6>
+            </div>
+            <div class="card-body">
+              <div class="progress" style="height: 30px;">
+                <div id="progress-high" class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">High: 0%</div>
+                <div id="progress-medium" class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Medium: 0%</div>
+                <div id="progress-low" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Low: 0%</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   </main>
+  
+  <!-- Delete Confirmation Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Removal</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to remove <strong id="delete-item-name">this destination</strong> from your wishlist?</p>
+          <p class="text-muted small">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete-btn">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <!-- Footer Placeholder -->
   <div id="footer-placeholder"></div>
