@@ -61,11 +61,11 @@ function setHeroContent() {
       title: 'Destinations',
       subtitle: 'Explore the beautiful attractions and hidden gems of Freetown and Sierra Leone'
     },
-    'tasks.html': {
+    'wishlist.html': {
       title: 'My Wishlist',
       subtitle: 'Save your favorite destinations and plan your perfect trip'
     },
-    'analytics.html': {
+    'itinerary.html': {
       title: 'My Itinerary',
       subtitle: 'Build and manage your personalized travel itinerary'
     },

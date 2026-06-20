@@ -4,6 +4,35 @@
 let allItineraries = [];
 let currentItineraryId = null;
 
+// Confirmation callback
+let confirmCallback = null;
+
+// Show confirmation modal
+function showConfirmModal(message, callback) {
+  const messageEl = document.querySelector('#confirm-message');
+  if (messageEl) {
+    messageEl.textContent = message;
+  }
+  confirmCallback = callback;
+  const modal = new bootstrap.Modal(document.querySelector('#confirmModal'));
+  modal.show();
+}
+
+// Handle confirm button click
+document.addEventListener('DOMContentLoaded', function() {
+  const confirmBtn = document.querySelector('#confirm-action-btn');
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function() {
+      if (confirmCallback) {
+        confirmCallback();
+        confirmCallback = null;
+      }
+      const modal = bootstrap.Modal.getInstance(document.querySelector('#confirmModal'));
+      modal.hide();
+    });
+  }
+});
+
 // Create new itinerary
 function createNewItinerary() {
   const nameInput = document.querySelector('#itinerary-name');
@@ -107,36 +136,37 @@ function renderItineraryList() {
 
 // Delete specific itinerary
 function deleteItinerary(id) {
-  if (!confirm('Are you sure you want to delete this itinerary?')) {
-    return;
-  }
+  const itinerary = allItineraries.find(i => String(i.id) === String(id));
+  const itineraryName = itinerary ? itinerary.name : 'this itinerary';
   
-  // Ensure ID is treated as string for consistent comparison
-  const stringId = String(id);
-  
-  // Filter out the itinerary to delete
-  allItineraries = allItineraries.filter(i => String(i.id) !== stringId);
-  
-  // Update current itinerary ID if we deleted the current one
-  if (String(currentItineraryId) === stringId) {
-    currentItineraryId = allItineraries.length > 0 ? allItineraries[0].id : null;
-  }
-  
-  saveAllItineraries();
-  
-  // Update the name input
-  const nameInput = document.querySelector('#itinerary-name');
-  if (nameInput) {
-    if (currentItineraryId && allItineraries.length > 0) {
-      const itinerary = allItineraries.find(i => String(i.id) === String(currentItineraryId));
-      nameInput.value = itinerary ? itinerary.name : '';
-    } else {
-      nameInput.value = '';
+  showConfirmModal(`Are you sure you want to delete "${itineraryName}"?`, function() {
+    // Ensure ID is treated as string for consistent comparison
+    const stringId = String(id);
+    
+    // Filter out the itinerary to delete
+    allItineraries = allItineraries.filter(i => String(i.id) !== stringId);
+    
+    // Update current itinerary ID if we deleted the current one
+    if (String(currentItineraryId) === stringId) {
+      currentItineraryId = allItineraries.length > 0 ? allItineraries[0].id : null;
     }
-  }
-  
-  renderItineraryList();
-  renderDays();
+    
+    saveAllItineraries();
+    
+    // Update the name input
+    const nameInput = document.querySelector('#itinerary-name');
+    if (nameInput) {
+      if (currentItineraryId && allItineraries.length > 0) {
+        const itinerary = allItineraries.find(i => String(i.id) === String(currentItineraryId));
+        nameInput.value = itinerary ? itinerary.name : '';
+      } else {
+        nameInput.value = '';
+      }
+    }
+    
+    renderItineraryList();
+    renderDays();
+  });
 }
 
 // Get current itinerary
@@ -269,7 +299,7 @@ function removeDay(dayIndex) {
   const itinerary = getCurrentItinerary();
   if (!itinerary) return;
   
-  if (confirm('Are you sure you want to remove this day?')) {
+  showConfirmModal('Are you sure you want to remove this day?', function() {
     itinerary.days.splice(dayIndex, 1);
     // Renumber days
     itinerary.days.forEach((day, index) => {
@@ -278,7 +308,7 @@ function removeDay(dayIndex) {
     saveAllItineraries();
     renderDays();
     renderItineraryList();
-  }
+  });
 }
 
 // Save all itineraries to localStorage
