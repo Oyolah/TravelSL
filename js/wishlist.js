@@ -27,7 +27,7 @@ function addToWishlist(destinationId, priority = 'medium', destinationData = nul
 
   // Check if already in wishlist
   if (wishlist.some(item => item.id === destinationId)) {
-    alert('This destination is already in your wishlist!');
+    showWishlistModal('This destination is already in your wishlist!', 'warning');
     return;
   }
 
@@ -39,7 +39,31 @@ function addToWishlist(destinationId, priority = 'medium', destinationData = nul
   });
   setStorage('wishlist', wishlist);
 
-  alert(`${destination.name} added to wishlist with ${priority} priority!`);
+  showWishlistModal(`${destination.name} added to wishlist with ${priority} priority!`, 'success');
+  
+  // Re-render if on wishlist page
+  if (document.querySelector('#wishlist-container')) {
+    renderWishlist();
+    updateAnalytics();
+  }
+}
+
+// Show wishlist modal with message
+function showWishlistModal(message, type = 'success') {
+  const messageEl = document.querySelector('#wishlist-message');
+  const modalEl = document.querySelector('#wishlistModal');
+  
+  if (!messageEl || !modalEl) {
+    // Fallback to alert if modal not available
+    alert(message);
+    return;
+  }
+  
+  messageEl.textContent = message;
+  messageEl.className = type === 'success' ? 'text-success' : 'text-warning';
+  
+  const modal = new bootstrap.Modal(modalEl);
+  modal.show();
 }
 
 // Remove from wishlist with modal confirmation
