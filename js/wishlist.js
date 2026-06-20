@@ -108,39 +108,8 @@ function sortTable(column) {
     currentSort.direction = 'asc';
   }
   
-  // Sort the wishlist
-  wishlist.sort((a, b) => {
-    let valueA = a[column];
-    let valueB = b[column];
-    
-    // Handle priority sorting with custom order
-    if (column === 'priority') {
-      valueA = priorityOrder[valueA] || 999;
-      valueB = priorityOrder[valueB] || 999;
-    }
-    
-    // Handle date sorting
-    if (column === 'addedAt') {
-      valueA = new Date(valueA || 0);
-      valueB = new Date(valueB || 0);
-    }
-    
-    // Handle numeric sorting
-    if (column === 'rating') {
-      valueA = parseFloat(valueA) || 0;
-      valueB = parseFloat(valueB) || 0;
-    }
-    
-    // Handle string sorting
-    if (typeof valueA === 'string' && typeof valueB === 'string') {
-      valueA = valueA.toLowerCase();
-      valueB = valueB.toLowerCase();
-    }
-    
-    if (valueA < valueB) return currentSort.direction === 'asc' ? -1 : 1;
-    if (valueA > valueB) return currentSort.direction === 'asc' ? 1 : -1;
-    return 0;
-  });
+  // Use shared sort utility
+  wishlist = sortArray(wishlist, column, currentSort.direction, column === 'priority' ? priorityOrder : {});
   
   // Save sorted wishlist back to localStorage
   setStorage('wishlist', wishlist);

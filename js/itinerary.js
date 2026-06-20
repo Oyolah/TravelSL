@@ -4,35 +4,6 @@
 let allItineraries = [];
 let currentItineraryId = null;
 
-// Confirmation callback
-let confirmCallback = null;
-
-// Show confirmation modal
-function showConfirmModal(message, callback) {
-  const messageEl = document.querySelector('#confirm-message');
-  if (messageEl) {
-    messageEl.textContent = message;
-  }
-  confirmCallback = callback;
-  const modal = new bootstrap.Modal(document.querySelector('#confirmModal'));
-  modal.show();
-}
-
-// Handle confirm button click
-document.addEventListener('DOMContentLoaded', function() {
-  const confirmBtn = document.querySelector('#confirm-action-btn');
-  if (confirmBtn) {
-    confirmBtn.addEventListener('click', function() {
-      if (confirmCallback) {
-        confirmCallback();
-        confirmCallback = null;
-      }
-      const modal = bootstrap.Modal.getInstance(document.querySelector('#confirmModal'));
-      modal.hide();
-    });
-  }
-});
-
 // Create new itinerary
 function createNewItinerary() {
   const nameInput = document.querySelector('#itinerary-name');
